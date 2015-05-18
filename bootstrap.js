@@ -644,6 +644,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "todosencha.store.TodoStore": [],
   "todosencha.view.Main": [],
   "todosencha.view.TodoFooter": [],
+  "todosencha.view.TodoInfo": [],
   "todosencha.view.TodoListView": []
 });
 Ext.ClassManager.addNameAliasMappings({
@@ -1372,6 +1373,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "todosencha.view.TodoFooter": [
     "widget.todoFooter"
+  ],
+  "todosencha.view.TodoInfo": [
+    "widget.todoInfo"
   ],
   "todosencha.view.TodoListView": [
     "widget.todoList"

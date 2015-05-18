@@ -21,6 +21,7 @@ Ext.define('todosencha.view.TodoListView', {
             '<Label>{title}</Label>',
             '<button class="destroy"></button>',
             '</div>',
+            '<input class="edit" value="{title}">',
             '</li>'
         ]
 
