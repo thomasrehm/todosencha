@@ -639,7 +639,12 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.viewport.WindowsPhone": [
     "Ext.viewport.WP"
   ],
-  "todosencha.view.Main": []
+  "todosencha.controller.TodoController": [],
+  "todosencha.model.TodoModel": [],
+  "todosencha.store.TodoStore": [],
+  "todosencha.view.Main": [],
+  "todosencha.view.TodoFooter": [],
+  "todosencha.view.TodoListView": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "Ext.AbstractComponent": [],
@@ -1359,7 +1364,16 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.viewport.Ios": [],
   "Ext.viewport.Viewport": [],
   "Ext.viewport.WindowsPhone": [],
+  "todosencha.controller.TodoController": [],
+  "todosencha.model.TodoModel": [],
+  "todosencha.store.TodoStore": [],
   "todosencha.view.Main": [
     "widget.main"
+  ],
+  "todosencha.view.TodoFooter": [
+    "widget.todoFooter"
+  ],
+  "todosencha.view.TodoListView": [
+    "widget.todoList"
   ]
 });

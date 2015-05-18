@@ -4,12 +4,27 @@ Ext.define('todosencha.controller.TodoController', {
     config: {
         refs: {
             addTodoButton: '#addTodoButton',
-            newTodoInput: '#newTodoInput'
+            newTodoInput: '#newTodoInput',
+            destroyTodo: 'destroy',
+            completeTodo: 'toggle'
+
 
         },
         control: {
+            completeTodo: {
+                tap: 'setCompleted'
+            },
             addTodoButton: {
                 tap: 'addToStorage'
+            },
+            newTodoInput: {
+                keyup: function(field, e) {
+                    if(e.event.keyCode === 13) {
+                        this.addToStorage();
+                        this.clearInput();
+
+                    }
+                }
             }
         }
 
@@ -26,5 +41,15 @@ Ext.define('todosencha.controller.TodoController', {
             completed: false
         });
         todoStore.sync();
+    },
+    clearInput: function() {
+        this.getNewTodoInput().setValue('');
+    },
+    destroyTodo: function() {
+
+    },
+    setCompleted: function() {
+        var todo_id = this.getCompleteTodo().getValue();
+        console.log(todo_id);
     }
 });

@@ -20,7 +20,7 @@ Ext.application({
 
 
     views: [
-        'Main', 'TodoListView'
+        'Main', 'TodoListView', 'TodoFooter', 'TodoInfo'
     ],
     models: [
         'TodoModel'
@@ -57,10 +57,14 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         var main = Ext.create('todosencha.view.Main'),
-        list = Ext.create('todosencha.view.TodoListView');
+        list = Ext.create('todosencha.view.TodoListView'),
+        footer = Ext.create('todosencha.view.TodoFooter');
 
         // Initialize the main view
+        Ext.getStore('TodoStore').load();
         Ext.Viewport.add(main);
+
+
 
 
 

@@ -1,15 +1,28 @@
 Ext.define('todosencha.view.TodoListView', {
-    extend: 'Ext.List',
+    extend: 'Ext.DataView',
     alias: 'widget.todoList',
     requires: ['todosencha.store.TodoStore'],
     xtype: 'todoList',
     config: {
         fullscreen: false,
-        scrollable: true,
-        title: 'List',
+        scrollable: null,
+        autoLoad: true,
+        deferEmtyText: true,
         store: 'TodoStore',
-        emptyText: '<div style="margin: 5px;">No notes cached.</div><pre></pre><pre>',
-        itemTpl: '{title}'
+        cls: 'view',
+        itemTpl: [
+            '<li>',
+            '<div class="view">',
+            '<tpl if="completed == true">',
+            '<input value="{id}" class="toggle" type="checkbox" checked>',
+            '<tpl else>',
+            '<input value="{id}" class="toggle" type="checkbox">',
+            '</tpl>',
+            '<Label>{title}</Label>',
+            '<button class="destroy"></button>',
+            '</div>',
+            '</li>'
+        ]
 
     }
 });
