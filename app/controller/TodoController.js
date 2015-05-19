@@ -2,14 +2,22 @@ Ext.define('todosencha.controller.TodoController', {
     extend: 'Ext.app.Controller',
 
     config: {
+        routes: {
+            'all': 'onAll',
+            'active': 'onActive',
+            'completed': 'onCompleted'
+        },
+
         refs: {
-            addTodoButton: '#addTodoButton',
+            //addTodoButton: '#addTodoButton',
+            mainArea: '#main_area',
             newTodoInput: '#newTodoInput',
-            destroyTodo: '.destroy',
-            completeTodo: 'toggle'
+            todoList: 'main #todoList',
+                // completeTodo: 'toggle'
 
 
         },
+
         control: {
             completeTodo: {
                 tap: 'setCompleted'
@@ -17,21 +25,40 @@ Ext.define('todosencha.controller.TodoController', {
             addTodoButton: {
                 tap: 'addToStorage'
             },
-            destroyTodo: {
-                
+            todoList: {
+                itemsingletap: 'todoClickPos',
+                itemdoubletap: 'editTodo'
             },
+
             newTodoInput: {
-                keyup: function(field, e) {
-                    if(e.event.keyCode === 13) {
+                keyup: function (field, e) {
+                    if (e.event.keyCode === 13) {
                         this.addToStorage();
                         this.clearInput();
 
                     }
                 }
+            },
+            mainArea: {
+                onShowOrHide: 'showOrHide'
             }
         }
 
     },
+
+    showOrHide: function () {
+        var todoStore = Ext.getStore('TodoStore');
+        todoStore.load();
+        var todoStore_totalCount = todoStore._totalCount;
+        if (todoStore._totalCount == 0) {
+            this.getMain().hide();
+            console.log('kleiner 1');
+
+
+        }
+        console.log(todoStore._totalCount);
+    },
+
 
     addToStorage: function () {
         //console.log('hello');
@@ -45,14 +72,40 @@ Ext.define('todosencha.controller.TodoController', {
         });
         todoStore.sync();
     },
-    clearInput: function() {
+    clearInput: function () {
         this.getNewTodoInput().setValue('');
     },
-    destroyTodo: function() {
+    destroyTodo: function (ctx, index, target, record, e, eOpts) {
+        var todoStore = Ext.getStore('TodoStore');
+        todoStore.remove(record);
+        //record.erase();
+        todoStore.sync();
+        console.log('deleted');
 
     },
-    setCompleted: function() {
-        var todo_id = this.getCompleteTodo().getValue();
-        console.log(todo_id);
+    editTodo: function () {
+
+    },
+
+    todoClickPos: function (ctx, index, target, record, evt, eOpts) {
+        if (evt.getTarget('.destroy')) {
+            this.destroyTodo(ctx, index, target, record, evt, eOpts);
+        } else if (evt.getTarget('.toggle')) {
+            this.todoCheck(ctx, index, target, record, evt, eOpts)
+        };
+
+    },
+
+    todoCheck: function (ctx, index, target, record, e, eOpts) {
+        var todoStore = Ext.getStore('TodoStore');
+        if(record.get('completed') == true){
+            record.set('completed', false);
+        } else {
+            record.set('completed', true);
+        }
+        todoStore.sync();
+
     }
+
+
 });

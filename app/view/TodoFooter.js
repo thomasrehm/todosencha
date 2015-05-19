@@ -15,18 +15,24 @@ Ext.define('todosencha.view.TodoFooter', {
             layout: 'hbox',
             cls: 'filters',
             items: [{
-                html: '<li><a class="selected" href="#/">All</a></li>',
-                id: 'allTodo'
-            }, {
+                xtype: 'button',
+                itemId: 'allTodo',
+                html: '<li><a class="selected" href="#/">All</a></li>'
 
+            }, {
+                xtype: 'button',
+                itemId: 'activeTodo',
                 html: '<li><a class="" href="#/active">Active</a></li>'
             }, {
-
+                xtype: 'button',
+                itemId: 'completedTodo',
                 html: '<li><a class="" href="#/completed">Completed</a></li>'
 
 
             }]
         }, {
+            xtype: 'button',
+            itemId: 'clearCompletedTodo',
             html: '<button class="clear-completed">Clear completed</button>'
         }]
 

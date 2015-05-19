@@ -1,4 +1,4 @@
-Ext.define('todosencha.view.Main', {
+Ext.define('todosencha.view.MainView', {
     extend: 'Ext.Container',
     xtype: 'main',
     requires: [
@@ -23,25 +23,28 @@ Ext.define('todosencha.view.Main', {
                 }, {
                     xtype: 'textfield',
                     name: 'new-todo',
+                    focus: true,
                     placeHolder: 'What needs to be done?',
                     id: 'newTodoInput',
-                    //cls: 'new-todo',
                     inputCls: 'new-todo'
                 }]
             }, {
+                id: 'main_area',
                 cls: 'main',
                 flex: 2,
-                // hidden: true,
+                hidden: false,
                 scrollable: null,
                 items: [{
                     xtype: 'checkboxfield',
-                    cls: 'toggle-all'
+                    cls: 'toggle-all',
+                    style: '-webkit-appearance:none !important'
                 }, {
                     cls: 'todo-list',
                     xtype: 'todoList'
                 }]
             }, {
                 cls: 'footer',
+                hidden: false,
                 flex: 1,
                 xtype: 'todoFooter',
                 // hidden: true,
@@ -51,24 +54,5 @@ Ext.define('todosencha.view.Main', {
         }, {
             xtype: 'todoInfo'
         }]
-    },
-    initialize: function () {
-        showHidden();
-    },
-    onChange: function () {
-        showHidden();
     }
-
-});
-
-var showHidden = (function () {
-    var todoStore = Ext.getStore('TodoStore');
-    todoStore.load();
-    var todoStore_totalCount = todoStore._totalCount;
-    if (todoStore._totalCount <= 1) {
-
-
-    }
-    // todoStore.value('title').length;
-    console.log(todoStore._totalCount);
 });
