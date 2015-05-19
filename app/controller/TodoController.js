@@ -13,7 +13,7 @@ Ext.define('todosencha.controller.TodoController', {
             mainArea: '#main_area',
             newTodoInput: '#newTodoInput',
             todoList: 'main #todoList',
-                // completeTodo: 'toggle'
+            // completeTodo: 'toggle'
 
 
         },
@@ -39,7 +39,7 @@ Ext.define('todosencha.controller.TodoController', {
                     }
                 }
             },
-            mainArea: {
+            mainArea:  {
                 onShowOrHide: 'showOrHide'
             }
         }
@@ -64,7 +64,9 @@ Ext.define('todosencha.controller.TodoController', {
         //console.log('hello');
         var todoStore = Ext.getStore('TodoStore'),
             todoInput = this.getNewTodoInput().getValue();
-
+        if (todoInput.trim() === '') {
+            return;
+        }
         todoStore.load();
         todoStore.add({
             title: todoInput,
@@ -83,7 +85,10 @@ Ext.define('todosencha.controller.TodoController', {
         console.log('deleted');
 
     },
-    editTodo: function () {
+    editTodo: function (ctx, index, target, record, e, eOpts) {
+        var todoStore = Ext.getStore('TodoStore');
+        record.get('title');
+        evt.getTarget('.edit').style('display: block');
 
     },
 
@@ -98,7 +103,7 @@ Ext.define('todosencha.controller.TodoController', {
 
     todoCheck: function (ctx, index, target, record, e, eOpts) {
         var todoStore = Ext.getStore('TodoStore');
-        if(record.get('completed') == true){
+        if (record.get('completed') == true) {
             record.set('completed', false);
         } else {
             record.set('completed', true);
