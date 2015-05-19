@@ -5,7 +5,7 @@ Ext.define('todosencha.controller.TodoController', {
         refs: {
             addTodoButton: '#addTodoButton',
             newTodoInput: '#newTodoInput',
-            destroyTodo: 'destroy',
+            destroyTodo: '.destroy',
             completeTodo: 'toggle'
 
 
@@ -16,6 +16,9 @@ Ext.define('todosencha.controller.TodoController', {
             },
             addTodoButton: {
                 tap: 'addToStorage'
+            },
+            destroyTodo: {
+                
             },
             newTodoInput: {
                 keyup: function(field, e) {

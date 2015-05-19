@@ -12,7 +12,7 @@ Ext.define('todosencha.view.TodoFooter', {
             cls: 'todo-count'
         },{
 
-
+            layout: 'hbox',
             cls: 'filters',
             items: [{
                 html: '<li><a class="selected" href="#/">All</a></li>',

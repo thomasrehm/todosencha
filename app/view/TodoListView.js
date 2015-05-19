@@ -1,5 +1,5 @@
 Ext.define('todosencha.view.TodoListView', {
-    extend: 'Ext.DataView',
+    extend: 'Ext.List',
     alias: 'widget.todoList',
     requires: ['todosencha.store.TodoStore'],
     xtype: 'todoList',
@@ -10,20 +10,26 @@ Ext.define('todosencha.view.TodoListView', {
         deferEmtyText: true,
         store: 'TodoStore',
         cls: 'view',
-        itemTpl: [
-            '<li>',
-            '<div class="view">',
-            '<tpl if="completed == true">',
-            '<input value="{id}" class="toggle" type="checkbox" checked>',
-            '<tpl else>',
-            '<input value="{id}" class="toggle" type="checkbox">',
-            '</tpl>',
-            '<Label>{title}</Label>',
-            '<button class="destroy"></button>',
-            '</div>',
-            '<input class="edit" value="{title}">',
-            '</li>'
-        ]
+        itemId: 'todoList',
+        itemTpl: '{title}'
+        // itemTpl: [
+        //     '<tpl if="completed == true">',
+        //     '<li class="completed">',
+        //     '<tpl else>',
+        //     '<li>',
+        //     '</tpl>',
+        //     '<div class="view">',
+        //     '<tpl if="completed == true">',
+        //     '<input value="{id}" class="toggle" type="checkbox" checked>',
+        //     '<tpl else>',
+        //     '<input value="{id}" class="toggle" type="checkbox">',
+        //     '</tpl>',
+        //     '<Label>{title}</Label>',
+        //     '<button class="destroy"></button>',
+        //     '</div>',
+        //     '<input class="edit" value="{title}">',
+        //     '</li>'
+        // ]
 
     }
 });

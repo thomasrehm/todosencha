@@ -31,12 +31,11 @@ Ext.define('todosencha.view.Main', {
             }, {
                 cls: 'main',
                 flex: 2,
+                // hidden: true,
                 scrollable: null,
                 items: [{
                     xtype: 'checkboxfield',
-                    cls: 'toggle-all',
-                    inputCls: 'toggle-all',
-                    clearIcon: true
+                    cls: 'toggle-all'
                 }, {
                     cls: 'todo-list',
                     xtype: 'todoList'
@@ -44,14 +43,32 @@ Ext.define('todosencha.view.Main', {
             }, {
                 cls: 'footer',
                 flex: 1,
-                xtype: 'todoFooter'
-
-
+                xtype: 'todoFooter',
+                // hidden: true,
+                id: 'todoFooterID'
 
             }]
-        },{
+        }, {
             xtype: 'todoInfo'
         }]
+    },
+    initialize: function () {
+        showHidden();
+    },
+    onChange: function () {
+        showHidden();
     }
 
+});
+
+var showHidden = (function () {
+    var todoStore = Ext.getStore('TodoStore');
+    todoStore.load();
+    var todoStore_totalCount = todoStore._totalCount;
+    if (todoStore._totalCount <= 1) {
+
+
+    }
+    // todoStore.value('title').length;
+    console.log(todoStore._totalCount);
 });
