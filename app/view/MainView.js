@@ -37,6 +37,7 @@ Ext.define('todosencha.view.MainView', {
                 items: [{
                     xtype: 'checkboxfield',
                     cls: 'toggle-all',
+                    hidden: true,
                     style: '-webkit-appearance:none !important'
                 }, {
                     cls: 'todo-list',
@@ -44,10 +45,10 @@ Ext.define('todosencha.view.MainView', {
                 }]
             }, {
                 cls: 'footer',
-                hidden: false,
+                hidden: true,
                 flex: 1,
                 xtype: 'todoFooter',
-                // hidden: true,
+
                 id: 'todoFooterID'
 
             }]

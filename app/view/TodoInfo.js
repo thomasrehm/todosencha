@@ -8,7 +8,7 @@ Ext.define('todosencha.view.TodoInfo', {
         scrollable: null,
         html: [
             '<footer class="info">',
-            '<p>Double-click to edit a todo</p>',
+        //    '<p>Double-click to edit a todo</p>',
             '<p>Created by <a href="http://todosencha.cloudcontrolled.com">Thomas Rehm</a></p>',
             '<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>',
             '</footer>'

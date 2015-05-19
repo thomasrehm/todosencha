@@ -110,6 +110,24 @@ Ext.define('todosencha.controller.TodoController', {
         }
         todoStore.sync();
 
+    },
+    countTodosLeft: function() {
+        var todoStore = Ext.getStore('TodoStore');
+        var currentView = Ext.Viewport.getActiveItem();
+        var label = currentView.getComponent('todosLeft');
+        var total = 0;
+
+        store.each(function(record) {
+            var isCompleted = record.getData().completed;
+            console.log(isCompleted);
+            if(!isCompleted) {
+                total++;
+            }
+        });
+
+        postText = (total === 1) ? 'item' : 'items';
+        labelText = total + ' ' + postText + ' left';
+        label.setHtml(labelText);
     }
 
 
