@@ -1,7 +1,7 @@
 Ext.define('todosencha.view.TodoListView', {
     extend: 'Ext.List',
     alias: 'widget.todoList',
-    requires: ['todosencha.store.TodoStore'],
+    requires: ['todosencha.store.TodoStore', 'Ext.Button'],
     xtype: 'todoList',
     config: {
         fullscreen: false,
@@ -11,7 +11,6 @@ Ext.define('todosencha.view.TodoListView', {
         store: 'TodoStore',
         cls: 'view',
         itemId: 'todoList',
-        // itemTpl: '{title}'
         itemTpl: [
             '<tpl if="completed == true">',
             '<li class="completed">',

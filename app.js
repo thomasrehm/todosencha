@@ -56,16 +56,11 @@ Ext.application({
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
 
-        var main = Ext.create('todosencha.view.MainView'),
-        list = Ext.create('todosencha.view.TodoListView'),
-        footer = Ext.create('todosencha.view.TodoFooter');
+        var main = Ext.create('todosencha.view.MainView');
 
         // Initialize the main view
         Ext.getStore('TodoStore').load();
         Ext.Viewport.add(main);
-
-
-
 
 
     },

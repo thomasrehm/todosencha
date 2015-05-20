@@ -642,7 +642,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "todosencha.controller.TodoController": [],
   "todosencha.model.TodoModel": [],
   "todosencha.store.TodoStore": [],
-  "todosencha.view.Main": [],
+  "todosencha.view.MainView": [],
   "todosencha.view.TodoFooter": [],
   "todosencha.view.TodoInfo": [],
   "todosencha.view.TodoListView": []
@@ -1368,7 +1368,7 @@ Ext.ClassManager.addNameAliasMappings({
   "todosencha.controller.TodoController": [],
   "todosencha.model.TodoModel": [],
   "todosencha.store.TodoStore": [],
-  "todosencha.view.Main": [
+  "todosencha.view.MainView": [
     "widget.main"
   ],
   "todosencha.view.TodoFooter": [

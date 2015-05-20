@@ -4,10 +4,10 @@ Ext.define('todosencha.view.MainView', {
     requires: [
         'Ext.Label',
         'Ext.List',
+        'Ext.field.Checkbox',
         'todosencha.view.TodoListView',
         'todosencha.view.TodoInfo',
-        'todosencha.store.TodoStore',
-        'todosencha.view.TodoFooter'
+        'todosencha.store.TodoStore'
     ],
 
     config: {
@@ -35,21 +35,58 @@ Ext.define('todosencha.view.MainView', {
                 hidden: false,
                 scrollable: null,
                 items: [{
-                    xtype: 'checkboxfield',
+                    xtype: 'button',
                     cls: 'toggle-all',
-                    hidden: true,
-                    style: '-webkit-appearance:none !important'
+                    itemId: 'toggle-all',
+                    hidden: false,
+                    action: 'doToggleAll'
                 }, {
                     cls: 'todo-list',
                     xtype: 'todoList'
                 }]
             }, {
-                cls: 'footer',
-                hidden: true,
+                hidden: false,
                 flex: 1,
-                xtype: 'todoFooter',
+                id: 'todoFooterID',
+                cls: 'footer',
+                items: [{
+                    xtype: 'label',
+                    itemId: 'uncompletedTodos',
+                    text: '',
+                    cls: 'todo-count'
+                }, {
 
-                id: 'todoFooterID'
+                    layout: 'hbox',
+                    cls: 'filters',
+
+                    items: [{
+                        xtype: 'button',
+                        itemId: 'allTodo',
+                        action: 'showAllTodos',
+                        style: 'display: inline',
+                        html: '<li><a class="selected" href="#/">All</a></li>'
+
+                    }, {
+                        xtype: 'button',
+                        itemId: 'activeTodo',
+                        action: 'showActiveTodos',
+                        style: 'display: inline',
+                        html: '<li><a class="" href="#/active">Active</a></li>'
+                    }, {
+                        xtype: 'button',
+                        itemId: 'completedTodo',
+                        action: 'showCompletedTodos',
+                        style: 'display: inline',
+                        html: '<li><a class="" href="#/completed">Completed</a></li>'
+
+
+                    }]
+                }, {
+                    xtype: 'button',
+                    itemId: 'clearCompletedTodo',
+                    action: 'clearCompletedTodos',
+                    html: '<button class="clear-completed">Clear completed</button>'
+                }]
 
             }]
         }, {

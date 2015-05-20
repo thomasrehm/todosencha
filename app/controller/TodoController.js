@@ -3,17 +3,20 @@ Ext.define('todosencha.controller.TodoController', {
 
     config: {
         routes: {
-            'all': 'onAll',
-            'active': 'onActive',
-            'completed': 'onCompleted'
+            'all': 'showAll',
+            'active': 'showActive',
+            'completed': 'showCompleted'
         },
 
         refs: {
-            //addTodoButton: '#addTodoButton',
             mainArea: '#main_area',
             newTodoInput: '#newTodoInput',
             todoList: 'main #todoList',
-            // completeTodo: 'toggle'
+            btnShowAllTodos: 'button[action=showAllTodos]',
+            btnShowActiveTodos: 'button[action=showActiveTodos]',
+            btnShowCompletedTodos: 'button[action=showCompletedTodos]',
+            btnClearCompletedTodos: 'button[action=clearCompletedTodos]',
+            cbxToggleAll: 'button[action=doToggleAll]'
 
 
         },
@@ -41,27 +44,116 @@ Ext.define('todosencha.controller.TodoController', {
             },
             mainArea:  {
                 onShowOrHide: 'showOrHide'
+            },
+            btnShowAllTodos: {
+                tap: 'tapShowAll'
+            },
+            btnShowActiveTodos: {
+                tap: 'tapShowActive'
+            },
+            btnShowCompletedTodos: {
+                tap: 'tapShowCompleted'
+            },
+            btnClearCompletedTodos: {
+                tap: 'clearCompletedTodos'
+            },
+            cbxToggleAll: {
+                tap: 'setAllCompleted'
             }
         }
+
+    },
+
+    tapShowAll: function () {
+        this.redirectTo('all');
+    },
+
+    tapShowActive: function () {
+        this.redirectTo('active');
+    },
+
+    tapShowCompleted: function () {
+        this.redirectTo('completed');
+    },
+
+    showAll: function () {
+        var todoStore = Ext.getStore('TodoStore');
+        var view = Ext.Viewport.getActiveItem();
+        var todolist = view.down('#todoList');
+        var buttonAll = view.down('#allTodo');
+        var buttonActive = view.down('#activeTodo');
+        var buttonComplete = view.down('#completedTodo');
+        buttonAll.setHtml('<li><a class="selected" href="#/">All</a></li>');
+        buttonActive.setHtml('<li><a class="" href="#/">Active</a></li>');
+        buttonComplete.setHtml('<li><a class="" href="#/">Completed</a></li>');
+        todoStore.setFilters([]);
+        todoStore.load();
+        todolist.refresh();
+
+        this.countTodosLeft();
+
+    },
+    showActive: function () {
+        var todoStore = Ext.getStore('TodoStore');
+        var view = Ext.Viewport.getActiveItem();
+        var todolist = view.down('#todoList');
+        var buttonAll = view.down('#allTodo');
+        var buttonActive = view.down('#activeTodo');
+        var buttonComplete = view.down('#completedTodo');
+        buttonAll.setHtml('<li><a class="" href="#/">All</a></li>');
+        buttonActive.setHtml('<li><a class="selected" href="#/">Active</a></li>');
+        buttonComplete.setHtml('<li><a class="" href="#/">Completed</a></li>');
+        todoStore.setFilters([{
+            filterFn: function (item) {
+                return !item.get('completed');
+            }
+        }]);
+        todoStore.load();
+        todolist.refresh();
+
+        this.countTodosLeft();
+
+    },
+    showCompleted: function () {
+        var todoStore = Ext.getStore('TodoStore');
+        var view = Ext.Viewport.getActiveItem();
+        var todolist = view.down('#todoList');
+        var buttonAll = view.down('#allTodo');
+        var buttonActive = view.down('#activeTodo');
+        var buttonComplete = view.down('#completedTodo');
+        buttonAll.setHtml('<li><a class="" href="#/">All</a></li>');
+        buttonActive.setHtml('<li><a class="" href="#/">Active</a></li>');
+        buttonComplete.setHtml('<li><a class="selected" href="#/">Completed</a></li>');
+        todoStore.setFilters([{
+            filterFn: function (item) {
+                return item.get('completed');
+            }
+        }]);
+        todoStore.load();
+        todolist.refresh();
+
+        this.countTodosLeft();
 
     },
 
     showOrHide: function () {
         var todoStore = Ext.getStore('TodoStore');
         todoStore.load();
+        var view = Ext.Viewport.getActiveItem();
+        var mainArea = view.down('#main_area');
+        var footerArea = view.down('#todoFooterID');
         var todoStore_totalCount = todoStore._totalCount;
-        if (todoStore._totalCount == 0) {
-            this.getMain().hide();
-            console.log('kleiner 1');
-
-
+        if (todoStore._totalCount === 0) {
+            mainArea.hide();
+            footerArea.hide();
+        } else {
+            mainArea.show();
+            footerArea.show();
         }
-        console.log(todoStore._totalCount);
     },
 
 
     addToStorage: function () {
-        //console.log('hello');
         var todoStore = Ext.getStore('TodoStore'),
             todoInput = this.getNewTodoInput().getValue();
         if (todoInput.trim() === '') {
@@ -73,6 +165,10 @@ Ext.define('todosencha.controller.TodoController', {
             completed: false
         });
         todoStore.sync();
+        this.showOrHide();
+        this.countTodosLeft();
+
+
     },
     clearInput: function () {
         this.getNewTodoInput().setValue('');
@@ -80,9 +176,11 @@ Ext.define('todosencha.controller.TodoController', {
     destroyTodo: function (ctx, index, target, record, e, eOpts) {
         var todoStore = Ext.getStore('TodoStore');
         todoStore.remove(record);
-        //record.erase();
         todoStore.sync();
-        console.log('deleted');
+        this.countTodosLeft();
+        this.showOrHide();
+
+
 
     },
     editTodo: function (ctx, index, target, record, e, eOpts) {
@@ -103,31 +201,79 @@ Ext.define('todosencha.controller.TodoController', {
 
     todoCheck: function (ctx, index, target, record, e, eOpts) {
         var todoStore = Ext.getStore('TodoStore');
-        if (record.get('completed') == true) {
+        if (record.getData().completed) {
             record.set('completed', false);
         } else {
             record.set('completed', true);
         }
         todoStore.sync();
+        this.countTodosLeft();
 
     },
-    countTodosLeft: function() {
+    countTodosLeft: function () {
         var todoStore = Ext.getStore('TodoStore');
-        var currentView = Ext.Viewport.getActiveItem();
-        var label = currentView.getComponent('todosLeft');
+        var view = Ext.Viewport.getActiveItem();
+        var label = view.down('#uncompletedTodos');
         var total = 0;
-
-        store.each(function(record) {
+        todoStore.each(function (record) {
             var isCompleted = record.getData().completed;
-            console.log(isCompleted);
-            if(!isCompleted) {
+            if (!isCompleted) {
                 total++;
             }
         });
+        text = (total === 1) ? 'item left' : 'items left';
+        setLabelText = total + ' ' + text;
+        label.setHtml(setLabelText);
+        return total;
+    },
 
-        postText = (total === 1) ? 'item' : 'items';
-        labelText = total + ' ' + postText + ' left';
-        label.setHtml(labelText);
+    clearCompletedTodos: function () {
+        var todoStore = Ext.getStore('TodoStore');
+        todoStore.each(function (record) {
+            var isCompleted = record.getData().completed;
+            if (isCompleted) {
+                todoStore.remove(record);
+                todoStore.sync();
+
+            }
+        });
+        this.showOrHide();
+
+    },
+    setAllCompleted: function () {
+        var todoStore = Ext.getStore('TodoStore');
+        var total = 0;
+        todoStore.each(function (record) {
+            var isCompleted = record.getData().completed;
+            if (!isCompleted) {
+                total++;
+            }
+        });
+        if (total != 0) {
+            todoStore.each(function (record) {
+                record.set('completed', true);
+                todoStore.sync();
+
+            });
+        } else {
+            todoStore.each(function (record) {
+                record.set('completed', false);
+                todoStore.sync();
+            });
+        }
+        this.countTodosLeft();
+
+
+    },
+    editTodo: function (ctx, index, target, record, e, eOpts) {
+        console.log('editTodo is not implemented');
+
+    },
+
+    launch: function () {
+        console.log('launch');
+        this.showOrHide();
+        this.countTodosLeft();
     }
 
 

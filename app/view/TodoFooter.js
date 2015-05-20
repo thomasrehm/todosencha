@@ -7,8 +7,9 @@ Ext.define('todosencha.view.TodoFooter', {
         scrollable: null,
         cls: 'footer',
         items: [{
-            xtype: 'panel',
-            html: '<strong>0</strong> items left',
+            xtype: 'label',
+            itemId: 'uncompletedTodos',
+            text: '',
             cls: 'todo-count'
         },{
 
@@ -17,15 +18,18 @@ Ext.define('todosencha.view.TodoFooter', {
             items: [{
                 xtype: 'button',
                 itemId: 'allTodo',
+                action: 'showAllTodos',
                 html: '<li><a class="selected" href="#/">All</a></li>'
 
             }, {
                 xtype: 'button',
                 itemId: 'activeTodo',
+                action: 'showActiveTodos',
                 html: '<li><a class="" href="#/active">Active</a></li>'
             }, {
                 xtype: 'button',
                 itemId: 'completedTodo',
+                action: 'showCompletedTodos',
                 html: '<li><a class="" href="#/completed">Completed</a></li>'
 
 
